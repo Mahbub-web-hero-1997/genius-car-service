@@ -1,25 +1,41 @@
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import img from '../../../images/google_PNG19630.png'
+import auth from '../../../firebase.init';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
-const Login = () => {
+
+
+
+
+const Register = () => {
+    const [
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth);
     const navigate = useNavigate()
-    const handleSubmit = event => {
+    const handleRegister = event => {
+        event.preventDefault()
         const name = event.target.name.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
         const confirmPassword = event.target.confirmPassword.value;
-        console.log(name, email, password, confirmPassword);
-        event.preventDefault()
+        createUserWithEmailAndPassword(email, password)
+
     }
     const navigateRegister = event => {
         navigate('/login')
+    }
+    if (user) {
+        navigate('/home')
     }
     return (
         <div>
             <h2 className='text-center text-primary mt-3'>Register</h2>
             <div className="w-50 form_Container mx-auto b mb-5 p-3 ">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleRegister}>
                     <FloatingLabel
                         controlId="floatingInput"
                         label="Name"
@@ -41,17 +57,19 @@ const Login = () => {
                         <Form.Control type="password" name='confirmPassword' placeholder="Password" required />
                     </FloatingLabel>
                     <Button className='w-100 btn btn-lg' variant="primary" type="submit">
-                        LogIn
+                        Register
                     </Button>
                 </form>
                 <p className='m-2'>Already have an account? <span onClick={() => navigateRegister()} className='text-danger btn'>Please Login</span></p>
-                <button className=' d-flex justify-content-center align-items-center btn btn-primary btn-lg w-100 mt-1 position-relative'>
-                    <img className='me-2' width={'6%'} src={img} alt="" />
-                    <p className='m-0'>Continue With Google</p>
-                </button>
+                <div className='d-flex align-items-center '>
+                    <div style={{ height: '1px' }} className='bg-primary w-50'></div>
+                    <small className='px-2 mb-1'>or</small>
+                    <div style={{ height: '1px' }} className='bg-primary w-50'></div>
+                </div>
+                <SocialLogin></SocialLogin>
             </div>
         </div >
     );
 };
 
-export default Login;
+export default Register;

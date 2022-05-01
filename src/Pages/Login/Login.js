@@ -1,17 +1,32 @@
 import React, { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import img from '../../images/google_PNG19630.png'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
+import SocialLogin from './SocialLogin/SocialLogin';
+
 
 const Login = () => {
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
     const emailRef = useRef('')
     const passwordRef = useRef('')
     const navigate = useNavigate()
+    const location = useLocation()
+    let from = location.state?.from?.pathname || "/";
+    if (user) {
+        navigate(from, { replace: true });
+    }
+
     const handleSubmit = event => {
         event.preventDefault()
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        console.log(email, password);
+        signInWithEmailAndPassword(email, password)
     }
     const navigateRegister = event => {
         navigate('/register')
@@ -39,10 +54,13 @@ const Login = () => {
                     </Button>
                 </form>
                 <p className='m-2'>New to Genius car? <span onClick={() => navigateRegister()} className='text-danger btn'>Plese Register</span></p>
-                <button className=' d-flex justify-content-center align-items-center btn btn-primary btn-lg w-100 mt-1 position-relative'>
-                    <img className='me-2' width={'6%'} src={img} alt="" />
-                    <p className='m-0'>Continue With Google</p>
-                </button>
+                <div className='d-flex align-items-center '>
+                    <div style={{ height: '1px' }} className='bg-primary w-50'></div>
+                    <small className='px-2 mb-1'>or</small>
+                    <div style={{ height: '1px' }} className='bg-primary w-50'></div>
+                </div>
+                <SocialLogin></SocialLogin>
+
 
 
             </div>

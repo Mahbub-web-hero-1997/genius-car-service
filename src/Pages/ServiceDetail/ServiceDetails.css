@@ -1,0 +1,15 @@
+.service_Detail_Container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.service_thum img {
+    width: 95%;
+}
+
+.service_Title {
+    width: 100%;
+    margin-right: 30px;
+    text-align: start;
+    padding: 30px;
+}
