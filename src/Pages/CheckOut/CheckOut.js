@@ -9,7 +9,7 @@ const CheckOut = () => {
     const [service, setService] = useState(serviceId);
     const [user, loading] = useAuthState(auth)
     useEffect(() => {
-        const url = `http://localhost:5000/service/${serviceId}`
+        const url = `https://thawing-stream-59489.herokuapp.com/service/${serviceId}`
         fetch(url)
             .then(res => res.json())
             .then(data => setService(data));
@@ -28,7 +28,7 @@ const CheckOut = () => {
             phone: event.target.number.value,
 
         }
-        axios.post('http://localhost:5000/order', order)
+        axios.post('https://thawing-stream-59489.herokuapp.com/order', order)
             .then(response => {
                 const { data } = response;
                 if (data.insertedId) {

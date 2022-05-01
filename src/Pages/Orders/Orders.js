@@ -5,13 +5,13 @@ const Orders = () => {
     const [orders, setOrders] = useState([])
     console.log(orders)
     useEffect(() => {
-        fetch(`http://localhost:5000/order`)
+        fetch(`https://thawing-stream-59489.herokuapp.com/order`)
             .then(res => res.json())
             .then(data => setOrders(data))
 
 
         // const getOrders = async () => {
-        //     const url = `http://localhost:5000/order`;
+        //     const url = `https://thawing-stream-59489.herokuapp.com/order`;
         //     console.log(url);
         //     const { data } = await axios.get(url)
         //     setOrders(data)
